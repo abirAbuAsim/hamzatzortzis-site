@@ -129,33 +129,16 @@ main{display:block}
 }
 .hero__acts{display:flex; gap:12px; flex-wrap:wrap}
 
-.portrait{margin:0}
-.portrait__frame{
-  position:relative; aspect-ratio:4/5; width:100%;
-  background:
-    radial-gradient(120% 90% at 50% 0%, #ECE4D2 0%, #E4DAC4 55%, #DACFB4 100%);
+.portrait{position:relative; margin:0}
+.portrait img{
+  width:100%; aspect-ratio:4/5; object-fit:cover; object-position:50% 50%;
   border:1px solid var(--line-strong);
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  gap:6px; overflow:hidden;
+  box-shadow:0 26px 54px -30px rgba(32,35,31,.6);
 }
-/* a drawn shoulders/head silhouette so the frame reads as a portrait slot */
-.portrait__frame::before{
-  content:""; position:absolute; left:50%; bottom:0; transform:translateX(-50%);
-  width:70%; height:78%;
-  background:
-    radial-gradient(42% 30% at 50% 20%, rgba(53,72,62,.26) 0 60%, transparent 62%),
-    radial-gradient(70% 60% at 50% 125%, rgba(53,72,62,.26) 0 60%, transparent 62%);
-}
-.portrait__frame::after{
-  content:""; position:absolute; inset:12px; border:1px solid rgba(32,35,31,.14);
-  pointer-events:none;
-}
-.portrait__label{
-  position:relative; font-family:var(--ui); font-weight:600; font-size:13px;
-  letter-spacing:.16em; text-transform:uppercase; color:var(--olive);
-}
-.portrait__note{
-  position:relative; font-family:var(--ui); font-size:12px; color:var(--muted);
+.portrait__cap{
+  position:absolute; right:10px; bottom:10px;
+  font-family:var(--ui); font-size:11px; letter-spacing:.02em; color:var(--ivory);
+  background:rgba(32,35,31,.55); padding:3px 8px; backdrop-filter:blur(2px);
 }
 
 /* ---------- 03 Featured world strip ---------- */
@@ -207,12 +190,28 @@ main{display:block}
 }
 .book__cover{display:block; text-decoration:none}
 .book__cover img{box-shadow:0 20px 44px -22px rgba(32,35,31,.55); width:100%}
-.book__cover--ph{
-  aspect-ratio:800/1190; background:linear-gradient(160deg,#E7DECB,#DBD0B6);
-  border:1px solid var(--line-strong);
-  display:flex; align-items:center; justify-content:center;
+/* Designed book-cover concepts (stand-ins for real covers) */
+.bookcover{
+  aspect-ratio:800/1190; position:relative; overflow:hidden;
+  display:flex; flex-direction:column; justify-content:flex-start;
+  padding:18px 18px 16px; gap:0;
+  box-shadow:0 20px 44px -22px rgba(32,35,31,.55);
 }
-.book__cover--ph span{font-family:var(--ui); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.bookcover--olive{background:linear-gradient(165deg,#3E5347,#2B3B32); color:#F2EEE2}
+.bookcover--ink{background:linear-gradient(165deg,#262A24,#15110D); color:#EFE9DA}
+.bookcover__kicker{
+  font-family:var(--ui); font-size:9.5px; font-weight:600; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--copper);
+}
+.bookcover__title{
+  font-family:var(--display); font-weight:500; font-size:clamp(20px,3.4vw,27px);
+  line-height:1.02; letter-spacing:-.01em; margin-top:14px;
+}
+.bookcover__rule{display:block; width:34px; height:2px; background:var(--copper); margin:14px 0 0}
+.bookcover__foot{
+  margin-top:auto; font-family:var(--read); font-style:italic; font-size:12.5px;
+  color:rgba(242,238,226,.82);
+}
 .book__flag{font-family:var(--ui); font-size:12px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--copper); margin-bottom:8px}
 .book__body h3{font-size:clamp(24px,3vw,32px); margin:0 0 6px}
 .book:not(.book--feature) .book__body h3{font-size:20px; margin-top:16px}
@@ -226,11 +225,16 @@ main{display:block}
 .talks__grid a{text-decoration:none; display:flex; flex-direction:column; gap:10px}
 .talks__thumb{
   position:relative; aspect-ratio:16/9; display:block;
-  background:linear-gradient(150deg,var(--olive),#293a32);
-  border:1px solid var(--line-strong);
+  background:#293a32 center/cover no-repeat;
+  border:1px solid var(--line-strong); overflow:hidden;
 }
-.play{position:absolute; inset:0; margin:auto; width:0; height:0; border-style:solid; border-width:13px 0 13px 22px; border-color:transparent transparent transparent rgba(245,242,234,.92)}
-.dur{position:absolute; right:8px; bottom:8px; font-family:var(--ui); font-size:12px; font-weight:600; color:var(--ivory); background:rgba(32,35,31,.7); padding:2px 7px; font-variant-numeric:tabular-nums}
+.talks__thumb::before{
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(32,35,31,.12) 0%, rgba(32,35,31,.1) 55%, rgba(32,35,31,.5) 100%);
+}
+.talks__grid a:hover .talks__thumb{filter:brightness(1.05)}
+.play{position:absolute; inset:0; margin:auto; z-index:1; width:0; height:0; border-style:solid; border-width:13px 0 13px 22px; border-color:transparent transparent transparent rgba(245,242,234,.95); filter:drop-shadow(0 2px 6px rgba(0,0,0,.4))}
+.dur{position:absolute; z-index:1; right:8px; bottom:8px; font-family:var(--ui); font-size:12px; font-weight:600; color:var(--ivory); background:rgba(32,35,31,.7); padding:2px 7px; font-variant-numeric:tabular-nums}
 .talks__kind{font-family:var(--ui); font-size:12px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--copper)}
 .talks__t{font-family:var(--display); font-size:21px; line-height:1.2}
 .talks__grid a:hover .talks__t{text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px}
@@ -252,14 +256,16 @@ main{display:block}
   max-width:var(--wrap); margin:0 auto; padding:clamp(56px,8vw,96px) var(--gutter);
   display:grid; grid-template-columns:1fr 1fr; gap:clamp(28px,5vw,64px); align-items:center;
 }
-.practice__media{margin:0}
-.practice__ph{
-  aspect-ratio:4/3; background:linear-gradient(160deg,#2B2E29,#171915);
+.practice__media{position:relative; margin:0}
+.practice__media img{
+  width:100%; aspect-ratio:4/3; object-fit:cover; display:block;
   border:1px solid var(--line-ink);
-  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px;
 }
-.practice__ph span{font-family:var(--ui); font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-muted)}
-.practice__ph .practice__note{letter-spacing:0; text-transform:none; font-size:12px}
+.practice__cap{
+  position:absolute; right:10px; bottom:10px;
+  font-family:var(--ui); font-size:11px; color:var(--ink-soft);
+  background:rgba(13,14,12,.55); padding:3px 8px; backdrop-filter:blur(2px);
+}
 .practice__text h2{font-size:clamp(30px,4.5vw,46px); margin:14px 0 20px; color:var(--ivory)}
 .practice__text p{color:var(--ink-soft); font-size:18px; max-width:46ch; margin-bottom:22px}
 .link-light{font-family:var(--ui); font-size:14.5px; font-weight:600; color:var(--copper); text-decoration:none; border-bottom:1.5px solid transparent}
