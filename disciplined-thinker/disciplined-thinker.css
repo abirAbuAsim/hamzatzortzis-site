@@ -331,3 +331,83 @@ main{display:block}
   .book--feature .book__cover{max-width:200px}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* ======================================================================
+   PREMIUM POLISH LAYER
+   Craft-only refinements: no framework, no heavy animation (per brief).
+   ====================================================================== */
+
+body{font-optical-sizing:auto}
+
+/* Return link in footer (replaces the dev bar) */
+.foot__back{margin-top:16px}
+.foot__back a{font-family:var(--ui); font-size:13px; color:#B9C4B8; text-decoration:none; border-bottom:1px solid transparent}
+.foot__back a:hover{border-bottom-color:#B9C4B8}
+
+/* --- Cohesive film grain over the whole page (very subtle) --- */
+body::after{
+  content:""; position:fixed; inset:0; z-index:70; pointer-events:none;
+  opacity:.045; mix-blend-mode:multiply;
+  background-size:120px 120px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* --- Unified warm grade on photography so they read as one shoot --- */
+.portrait img,.practice__media img{filter:saturate(.9) contrast(1.05)}
+.talks__thumb{filter:saturate(.9) contrast(1.04)}
+.portrait::after,.practice__media::after{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(175deg, rgba(164,110,76,.06) 0%, rgba(32,35,31,0) 42%, rgba(32,35,31,.16) 100%);
+  mix-blend-mode:multiply;
+}
+.portrait__cap,.practice__cap{z-index:2}
+
+/* --- Restrained entrance motion --- */
+[data-reveal]{
+  opacity:0; transform:translateY(22px);
+  transition:opacity .85s cubic-bezier(.22,.61,.36,1), transform .85s cubic-bezier(.22,.61,.36,1);
+  will-change:opacity, transform;
+}
+[data-reveal].in{opacity:1; transform:none}
+@media (prefers-reduced-motion:reduce){
+  [data-reveal]{opacity:1 !important; transform:none !important; transition:none}
+}
+
+/* --- Header: elevate subtly once scrolled --- */
+.site{transition:box-shadow .35s ease, background .35s ease}
+.site.is-scrolled{box-shadow:0 1px 0 rgba(32,35,31,.05), 0 20px 44px -32px rgba(32,35,31,.6)}
+
+/* --- Micro-interactions --- */
+.btn{transition:background .25s, color .25s, border-color .25s, transform .25s}
+.btn--solid:hover{transform:translateY(-1px)}
+.mainnav a{transition:border-color .2s, color .2s}
+
+.writing li{transition:background .35s ease}
+.writing li:hover{background:linear-gradient(90deg, rgba(164,110,76,.05), rgba(164,110,76,0) 62%)}
+
+.book__cover,.book__cover img,.bookcover{transition:transform .55s cubic-bezier(.22,.61,.36,1), box-shadow .55s ease}
+.book:hover .book__cover{transform:translateY(-6px)}
+.book:hover .book__cover img,.book:hover .bookcover{box-shadow:0 34px 60px -26px rgba(32,35,31,.62)}
+
+.talks__grid a{transition:transform .4s cubic-bezier(.22,.61,.36,1)}
+.talks__grid a:hover{transform:translateY(-4px)}
+.talks__grid a:hover .talks__thumb{filter:saturate(.96) contrast(1.04) brightness(1.06)}
+
+.orgs__grid a{transition:background .3s ease, transform .3s ease}
+.orgs__grid a:hover{transform:translateY(-2px)}
+
+.strip__item{transition:background .25s ease, transform .25s ease}
+.strip__item:hover{transform:translateY(-1px)}
+
+/* --- Typographic refinement --- */
+.hero h1{letter-spacing:-.025em}
+.section__head h2,.about__bio h2,.practice__text h2{letter-spacing:-.018em}
+.eyebrow{position:relative}
+/* a hairline tick before each eyebrow kicker */
+.hero__text .eyebrow::before,.practice__text .eyebrow::before{
+  content:""; display:inline-block; width:22px; height:1px; background:var(--copper);
+  vertical-align:middle; margin-right:12px; transform:translateY(-2px);
+}
+
+/* A touch more air between major sections */
+.section{padding-top:clamp(64px,10vw,120px); padding-bottom:clamp(64px,10vw,120px)}
