@@ -5,6 +5,9 @@ designs. **Start by reading the creative brief:** [`docs/creative-brief.md`](doc
 (markdown) or [`docs/Hamza_Tzortzis_Creative_Brief.pdf`](docs/Hamza_Tzortzis_Creative_Brief.pdf)
 (original). The brief is the design source-of-truth.
 
+> **Doing an audit + redesign?** Follow the task brief in
+> [`docs/codex-audit-and-redesign.md`](docs/codex-audit-and-redesign.md).
+
 ## What this repo is
 
 Design mockups for a new personal website for **Hamza Andreas Tzortzis**
