@@ -60,11 +60,12 @@ should go there unless asked otherwise.
   (approved bio/titles, book priority, final org list, BJJ photos, featured
   writing/talks, speaking-enquiry flow, republish rights).
 
-## Additional references suggested during review
+## Project links & references
 
-Other Islamic-personality sites raised as touchpoints (beyond the brief's):
-omarsuleiman.com, abdullahoduro.com, mohammedhijab.com, sandala.org,
-yasirqadhi.com.
+Project repos/live URLs and the reference websites shared during review
+(Omar Suleiman, Abdullah Oduro, Mohammed Hijab, Sandala, Yasir Qadhi), with
+their notes and the "moving video hero" idea, are collected in
+[`docs/references-and-links.md`](docs/references-and-links.md).
 
 ## Production note (future)
 

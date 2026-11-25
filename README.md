@@ -6,6 +6,8 @@ Design directions for a new website for **Hamza Andreas Tzortzis**, shared for r
 
 - **Live:** https://abirabuasim.github.io/hamzatzortzis-site/
 - **Creative brief (context for contributors & agents):** [`docs/creative-brief.md`](docs/creative-brief.md) · [original PDF](docs/Hamza_Tzortzis_Creative_Brief.pdf)
+- **References & project links:** [`docs/references-and-links.md`](docs/references-and-links.md)
+- **Audit & redesign task (for agents):** [`docs/codex-audit-and-redesign.md`](docs/codex-audit-and-redesign.md)
 - **Start here if you're improving the designs:** [`AGENTS.md`](AGENTS.md)
 
 ## Directions
