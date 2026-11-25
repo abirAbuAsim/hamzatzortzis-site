@@ -1,94 +1,78 @@
-// The Disciplined Thinker — restrained interaction only.
-// Per the brief: no heavy animation. A mobile menu, a subtle header
-// elevation on scroll, and a gentle one-time entrance reveal.
-//
-// The reveal is deliberately robust: content can NEVER stay hidden.
-// Anything at or above the fold is revealed immediately, and a scroll
-// sweep reveals the rest as it comes into view — fast scrolling, anchor
-// jumps and no-JS all leave the content visible.
+// The Disciplined Thinker — only essential interface behaviour.
 (function () {
-  /* ---- Mobile menu ---- */
-  var btn = document.querySelector('.menu');
+  var button = document.querySelector('.menu');
   var panel = document.getElementById('mainnav-m');
-  if (btn && panel) {
-    var close = function () {
-      panel.hidden = true;
-      btn.setAttribute('aria-expanded', 'false');
-    };
-    btn.addEventListener('click', function () {
-      var open = btn.getAttribute('aria-expanded') === 'true';
-      panel.hidden = open;
-      btn.setAttribute('aria-expanded', String(!open));
-    });
-    panel.addEventListener('click', function (e) { if (e.target.closest('a')) close(); });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
-  }
-
-  /* ---- Header elevation on scroll ---- */
   var site = document.querySelector('.site');
-  var onHeader = function () { if (site) site.classList.toggle('is-scrolled', window.scrollY > 8); };
-  window.addEventListener('scroll', onHeader, { passive: true });
-  onHeader();
+  var root = document.documentElement;
 
-  /* ---- Entrance reveal ---- */
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  var selector = [
-    '.hero__text > *', '.portrait',
-    '.strip__item',
-    '.section__head', '.writing li', '.book',
-    '.talks__grid li', '.orgs__grid li',
-    '.practice__media', '.practice__text > *',
-    '.about__bio', '.about__contact'
-  ].join(', ');
-
-  var els = Array.prototype.slice.call(document.querySelectorAll(selector));
-
-  // No motion wanted (or no JS features): just show everything.
-  if (reduce) {
-    els.forEach(function (el) { el.classList.add('in'); });
-    return;
+  function closeMenu() {
+    if (!button || !panel) return;
+    panel.hidden = true;
+    button.setAttribute('aria-expanded', 'false');
   }
 
-  // Mark for animation and stagger within sibling groups.
-  els.forEach(function (el) {
-    el.setAttribute('data-reveal', '');
-    var sibs = Array.prototype.filter.call(el.parentElement.children, function (c) {
-      return c.matches && c.matches(selector);
+  if (button && panel) {
+    button.addEventListener('click', function () {
+      var isOpen = button.getAttribute('aria-expanded') === 'true';
+      panel.hidden = isOpen;
+      button.setAttribute('aria-expanded', String(!isOpen));
     });
-    var i = sibs.indexOf(el);
-    if (i > 0) el.style.transitionDelay = Math.min(i, 6) * 70 + 'ms';
-  });
 
-  var remaining = els.slice();
-  function sweep() {
-    var vh = window.innerHeight || document.documentElement.clientHeight;
-    remaining = remaining.filter(function (el) {
-      // reveal once the top crosses 92% of the viewport — this also
-      // covers anything already scrolled past (negative top).
-      if (el.getBoundingClientRect().top < vh * 0.92) {
-        el.classList.add('in');
-        return false; // drop from remaining
+    panel.addEventListener('click', function (event) {
+      if (event.target.closest('a')) closeMenu();
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        closeMenu();
+        button.focus();
       }
-      return true;
     });
-    if (!remaining.length) {
-      window.removeEventListener('scroll', onSweep);
-      window.removeEventListener('resize', onSweep);
-    }
   }
 
-  var ticking = false;
-  function onSweep() {
-    if (ticking) return;
-    ticking = true;
-    window.requestAnimationFrame(function () { ticking = false; sweep(); });
+  function updateHeader() {
+    if (site) site.classList.toggle('is-scrolled', window.scrollY > 8);
+    var scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    var progress = scrollable > 0 ? Math.min(1, window.scrollY / scrollable) : 0;
+    root.style.setProperty('--scroll-progress', progress);
   }
 
-  sweep(); // reveal the above-the-fold content now
-  window.addEventListener('scroll', onSweep, { passive: true });
-  window.addEventListener('resize', onSweep);
-  window.addEventListener('load', sweep);
-  // final safety net: reveal anything still hidden shortly after load
-  setTimeout(sweep, 1200);
+  window.addEventListener('scroll', updateHeader, { passive: true });
+  updateHeader();
+
+  /* Gentle editorial reveals. No element is hidden unless the browser
+     supports IntersectionObserver and the visitor accepts motion. */
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduceMotion && 'IntersectionObserver' in window) {
+    var animated = Array.prototype.slice.call(document.querySelectorAll([
+      '.field-notes > *',
+      '.folio__head',
+      '.writing-list li',
+      '.feature-book',
+      '.book-index article',
+      '.talks__lead',
+      '.talks__list li',
+      '.organisations__grid a',
+      '.practice__intro',
+      '.practice__index',
+      '.practice__media',
+      '.about > *'
+    ].join(', ')));
+
+    animated.forEach(function (element, index) {
+      element.setAttribute('data-animate', '');
+      element.style.setProperty('--delay', (index % 3) * 55 + 'ms');
+    });
+    root.classList.add('motion-ready');
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+
+    animated.forEach(function (element) { observer.observe(element); });
+  }
 })();
