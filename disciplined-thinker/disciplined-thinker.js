@@ -40,6 +40,26 @@
   window.addEventListener('scroll', updateHeader, { passive: true });
   updateHeader();
 
+  var heroVideo = document.querySelector('.hero__video');
+  var motionPreference = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function syncHeroVideo() {
+    if (!heroVideo) return;
+    if (motionPreference && motionPreference.matches) {
+      heroVideo.pause();
+      heroVideo.currentTime = 0;
+      return;
+    }
+    var playback = heroVideo.play();
+    if (playback && typeof playback.catch === 'function') playback.catch(function () {});
+  }
+
+  syncHeroVideo();
+  if (motionPreference) {
+    if (typeof motionPreference.addEventListener === 'function') motionPreference.addEventListener('change', syncHeroVideo);
+    else if (typeof motionPreference.addListener === 'function') motionPreference.addListener(syncHeroVideo);
+  }
+
   /* Gentle editorial reveals. No element is hidden unless the browser
      supports IntersectionObserver and the visitor accepts motion. */
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;

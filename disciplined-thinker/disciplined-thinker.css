@@ -63,8 +63,10 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--copper-text);outlin
 .hero__links a span,.text-actions a span,.about__bio>a span,.practice__intro>a span{color:var(--copper-text);margin-left:12px;transition:margin-left .2s}
 .hero__links a:hover span,.text-actions a:hover span,.about__bio>a:hover span,.practice__intro>a:hover span{margin-left:18px}
 .hero__portrait{position:relative;height:560px;min-height:0;overflow:hidden;box-shadow:18px 18px 0 #E6E0D3}
-.hero__portrait::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(245,242,234,.18),transparent 28%),linear-gradient(0deg,rgba(32,35,31,.12),transparent 38%);pointer-events:none}
-.hero__portrait img{width:100%;height:100%;object-fit:cover;object-position:50% 50%;filter:saturate(.9) contrast(1.01) sepia(.025)}
+.hero__portrait::after{content:"";position:absolute;z-index:2;inset:0;background:linear-gradient(90deg,rgba(245,242,234,.18),transparent 28%),linear-gradient(0deg,rgba(32,35,31,.12),transparent 38%);pointer-events:none}
+.hero__portrait img,.hero__portrait video{width:100%;height:100%;object-fit:cover;filter:saturate(.9) contrast(1.01) sepia(.025)}
+.hero__portrait img{object-position:50% 50%}
+.hero__video{position:absolute;z-index:1;inset:0;object-position:50% 34%;background:var(--ink)}
 
 .index{max-width:var(--wrap);margin:auto;padding:0 var(--gutter);display:grid;grid-template-columns:repeat(4,1fr);border-block:1px solid var(--line)}
 .index a{display:grid;grid-template-columns:28px 1fr;column-gap:12px;row-gap:3px;padding:24px 20px;text-decoration:none;border-left:1px solid var(--line);transition:background .2s}
@@ -217,7 +219,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--copper-text);outlin
   :root{--section:58px}
   body{font-size:17px}body::after{display:none}
   .site__wrap{height:60px}.wordmark{font-size:12px;letter-spacing:.06em}
-  .hero{min-height:auto;padding-top:28px;grid-template-columns:1fr}.hero__text{padding:22px 0 36px}.role{font-size:9px;margin-bottom:26px}.role i{padding:0 .35em}.hero h1{font-size:clamp(54px,15vw,82px)}.hero__lede{margin-top:25px}.hero__portrait{min-height:0;height:min(82vw,460px)}.hero__portrait img{object-position:50% 42%}
+  .hero{min-height:auto;padding-top:28px;grid-template-columns:1fr}.hero__text{padding:22px 0 36px}.role{font-size:9px;margin-bottom:26px}.role i{padding:0 .35em}.hero h1{font-size:clamp(54px,15vw,82px)}.hero__lede{margin-top:25px}.hero__portrait{min-height:0;height:min(82vw,460px)}.hero__portrait img{object-position:50% 42%}.hero__video{object-position:50% 31%}
   .hero__portrait{box-shadow:9px 9px 0 #E6E0D3}
   .index{grid-template-columns:1fr 1fr}.index a:nth-child(3){border-left:0;border-top:1px solid var(--line)}.index a:nth-child(4){border-top:1px solid var(--line)}
   .field-notes{padding-top:28px;grid-template-columns:1fr 1fr}.field-notes__intro{grid-column:1 / -1;grid-row:auto;padding:0 0 10px;display:grid;grid-template-columns:100px 1fr;gap:14px;align-items:start}.field-notes__intro p{margin-top:0}.field-note--teaching{display:none}.field-note--speaking,.field-note--training{height:240px}.field-note--speaking img{object-position:50% 30%}.field-note--training img{object-position:50% 22%}
@@ -241,6 +243,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--copper-text);outlin
 
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
+  .hero__video{display:none}
   *,*::before,*::after{transition-duration:.001ms!important;animation-duration:.001ms!important;animation-iteration-count:1!important}
 }
 
